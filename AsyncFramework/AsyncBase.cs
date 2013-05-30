@@ -7,43 +7,35 @@ using System.Threading.Tasks;
 
 namespace AsyncFramework
 {
-  public class AsyncDemo
+  public abstract class AsyncBase
   {
-    public AsyncDemo()
+    protected AsyncBase()
     {
       // For Event-based Asynchronous Pattern
       InitialiseDelegates();
     }
 
-   // The method to be executed asynchronously. 
-    public string TestMethod(int callDuration)
-    {
-      Console.WriteLine("Test method begins on thread {0} waiting for {1}sec.", Thread.CurrentThread.ManagedThreadId,
-                        callDuration);
-      Thread.Sleep(callDuration);
-      Console.WriteLine("Test method ends on thread {0} waited for {1}sec.", Thread.CurrentThread.ManagedThreadId,
-                        callDuration);
-      return String.Format("My call time was {0}.", callDuration.ToString(CultureInfo.InvariantCulture));
-    }
+    // The method to be executed asynchronously. 
+    protected abstract void Execute();
 
     #region Asynchronous Programming Model
 
     private AsyncMethodCaller _caller;
 
-    private delegate string AsyncMethodCaller(int callDuration);
+    private delegate void AsyncMethodCaller();
 
-    public IAsyncResult BeginTestMethod(int callDuration, AsyncCallback callback, object state)
+    public IAsyncResult BeginExecute(AsyncCallback callback)
     {
       // Create the delegate.
-      _caller = TestMethod;
+      _caller = Execute;
 
       // Initiate the asychronous call.
-      return _caller.BeginInvoke(callDuration, callback, state);
+      return _caller.BeginInvoke(callback, null);
     }
 
-    public string EndTestMehod(IAsyncResult result)
+    public void EndExecute(IAsyncResult result)
     {
-      return _caller.EndInvoke(result);
+      _caller.EndInvoke(result);
     }
 
     #endregion
@@ -96,6 +88,7 @@ namespace AsyncFramework
         asyncOp,
         null,
         null);
+
       return taskId;
     }
 
@@ -111,7 +104,7 @@ namespace AsyncFramework
       {
         try
         {
-          result = TestMethod(callduration);
+          Execute();
         }
         catch (Exception ex)
         {
@@ -225,10 +218,10 @@ namespace AsyncFramework
     public Task<string> TestMethodTask(int callDuration)
     {
       var tcs = new TaskCompletionSource<string>();
-      var caller = new AsyncMethodCaller(TestMethod);
-      caller.BeginInvoke(callDuration, ar =>
+      var caller = new AsyncMethodCaller(Execute);
+      caller.BeginInvoke(ar =>
       {
-        try { tcs.SetResult(caller.EndInvoke(ar)); }
+        try { caller.EndInvoke(ar); }
         catch (Exception exc) { tcs.SetException(exc); }
       }, null);
       return tcs.Task;
@@ -236,9 +229,15 @@ namespace AsyncFramework
 
     #endregion
 
-    public void TestMethodAsyncCancel()
+    public IAsyncResult Start()
     {
-      
+      var asyncResult = BeginExecute(StartCallback);
+      return asyncResult;
+    }
+
+    private void StartCallback(IAsyncResult ar)
+    {
+      EndExecute(ar);
     }
   }
 }
