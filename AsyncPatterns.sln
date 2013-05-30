@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskbasedAsynchronousPatter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadSynchronization", "ThreadSynchronization\ThreadSynchronization.csproj", "{4C6ED7BD-3B1C-4CCC-96B6-84E52F31669E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeLockPattern", "SafeLockPattern\SafeLockPattern.csproj", "{6F17AFF7-C46F-4859-B5FD-5CDC0353D736}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{4C6ED7BD-3B1C-4CCC-96B6-84E52F31669E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C6ED7BD-3B1C-4CCC-96B6-84E52F31669E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C6ED7BD-3B1C-4CCC-96B6-84E52F31669E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F17AFF7-C46F-4859-B5FD-5CDC0353D736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F17AFF7-C46F-4859-B5FD-5CDC0353D736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F17AFF7-C46F-4859-B5FD-5CDC0353D736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F17AFF7-C46F-4859-B5FD-5CDC0353D736}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,6 +23,7 @@ namespace EventbasedAsynchronousPattern
                         Thread.CurrentThread.ManagedThreadId);
 
       Console.WriteLine("Press enter to quit.");
+      asyncDemo.TestMethodAsyncCancel();
       Console.ReadLine();
     }
 
